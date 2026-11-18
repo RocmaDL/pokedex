@@ -4,8 +4,8 @@ Application React (Vite) qui affiche les pokémons de [PokéAPI](https://pokeapi
 liste paginée, fiche détail et formulaire de création.
 TP du module Développement frontend avancé.
 
-- Site en ligne : _à compléter après le premier déploiement_
-- Dépôt GitHub : _à compléter_
+- Site en ligne : <https://pokedex-three-gules-51.vercel.app>
+- Dépôt GitHub : <https://github.com/RocmaDL/pokedex> (privé)
 
 ## Lancer le projet
 
