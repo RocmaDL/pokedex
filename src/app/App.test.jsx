@@ -5,10 +5,10 @@ import { renderWithRouter } from '../test/renderWithRouter'
 import App from './App'
 
 // Les tests fonctionnels ne dépendent pas du réseau : l'API est simulée.
-vi.mock('../entities/pokemon/api/pokemonApi', () => ({
+jest.mock('../entities/pokemon/api/pokemonApi', () => ({
   PAGE_SIZE: 20,
-  fetchPokemonPage: vi.fn(),
-  fetchPokemonDetails: vi.fn(),
+  fetchPokemonPage: jest.fn(),
+  fetchPokemonDetails: jest.fn(),
 }))
 
 function makePage(page, hasNext = true) {
@@ -36,12 +36,12 @@ const pikachuDetails = {
 }
 
 beforeEach(() => {
-  vi.mocked(fetchPokemonPage).mockImplementation((page) => Promise.resolve(makePage(page)))
-  vi.mocked(fetchPokemonDetails).mockResolvedValue(pikachuDetails)
+  fetchPokemonPage.mockImplementation((page) => Promise.resolve(makePage(page)))
+  fetchPokemonDetails.mockResolvedValue(pikachuDetails)
 })
 
 afterEach(() => {
-  vi.clearAllMocks()
+  jest.clearAllMocks()
 })
 
 describe('Pokédex Functional Test Suites', () => {
@@ -68,7 +68,7 @@ describe('Pokédex Functional Test Suites', () => {
 
   it('should open the detail page when clicking a pokemon, then go back', async () => {
     const user = userEvent.setup()
-    vi.mocked(fetchPokemonPage).mockResolvedValue({
+    fetchPokemonPage.mockResolvedValue({
       count: 1,
       hasNext: false,
       pokemons: [{ id: 25, name: 'Pikachu', image: null, types: ['electric'] }],
@@ -87,14 +87,14 @@ describe('Pokédex Functional Test Suites', () => {
   })
 
   it('should show a message when the list is empty', async () => {
-    vi.mocked(fetchPokemonPage).mockResolvedValue({ count: 0, hasNext: false, pokemons: [] })
+    fetchPokemonPage.mockResolvedValue({ count: 0, hasNext: false, pokemons: [] })
     renderWithRouter(<App />)
 
     expect(await screen.findByText('Aucun pokémon disponible.')).toBeInTheDocument()
   })
 
   it('should show an error message when the API fails', async () => {
-    vi.mocked(fetchPokemonPage).mockRejectedValue(new Error('Network Error'))
+    fetchPokemonPage.mockRejectedValue(new Error('Network Error'))
     renderWithRouter(<App />)
 
     expect(await screen.findByRole('alert')).toHaveTextContent(

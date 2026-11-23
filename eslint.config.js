@@ -27,8 +27,8 @@ export default [
     },
   },
   {
-    files: ['**/*.test.{js,jsx}', 'src/test/**', '*.config.js'],
-    languageOptions: { globals: { ...globals.node, ...globals.vitest } },
+    files: ['**/*.test.{js,jsx}', 'src/test/**', '*.config.js', '*.config.cjs'],
+    languageOptions: { globals: { ...globals.node, ...globals.jest } },
   },
   // Désactive les règles de mise en forme qui entreraient en conflit avec Prettier.
   prettier,

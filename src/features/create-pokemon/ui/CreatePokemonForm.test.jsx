@@ -4,20 +4,20 @@ import { useCreatedPokemonStore } from '../../../entities/pokemon/model/createdP
 import { createPokemon } from '../api/createPokemon'
 import CreatePokemonForm from './CreatePokemonForm'
 
-vi.mock('../api/createPokemon', () => ({ createPokemon: vi.fn() }))
+jest.mock('../api/createPokemon', () => ({ createPokemon: jest.fn() }))
 
 beforeEach(() => {
   useCreatedPokemonStore.setState({ pokemons: [] })
 })
 
 afterEach(() => {
-  vi.clearAllMocks()
+  jest.clearAllMocks()
 })
 
 describe('CreatePokemonForm Functional Test Suites', () => {
   it('should POST the pokemon and add it to the store', async () => {
     const user = userEvent.setup()
-    vi.mocked(createPokemon).mockResolvedValue({ id: 101 })
+    createPokemon.mockResolvedValue({ id: 101 })
     render(<CreatePokemonForm />)
 
     await user.type(screen.getByLabelText('Nom'), 'Flamby')
@@ -55,7 +55,7 @@ describe('CreatePokemonForm Functional Test Suites', () => {
 
   it('should show an error when the request fails', async () => {
     const user = userEvent.setup()
-    vi.mocked(createPokemon).mockRejectedValue(new Error('Network Error'))
+    createPokemon.mockRejectedValue(new Error('Network Error'))
     render(<CreatePokemonForm />)
 
     await user.type(screen.getByLabelText('Nom'), 'Flamby')
